@@ -16,10 +16,13 @@ const server = http.createServer(async (req, res) => {
       res.writeHead(200, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify(result.rows));
 } catch (err) {
-  console.error('PostgreSQL Connection Error:', err); // <-- Add this line
-  res.writeHead(500, { 'Content-Type': 'application/json' });
-  res.end(JSON.stringify({ error: 'Database query failed' }));
-}
+      res.writeHead(500, { 'Content-Type': 'application/json' });
+      // Temporarily sending the exact error message to the browser for debugging
+      res.end(JSON.stringify({ 
+        error: 'Database query failed', 
+        details: err.message 
+      }));
+    }
   } else {
     res.writeHead(404, { 'Content-Type': 'text/plain' });
     res.end('Not Found');
